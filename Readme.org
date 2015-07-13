@@ -55,7 +55,6 @@ Five explained examples.
 ** Go's Integer Types and Ranges
 | Types   | Range                                                      |
 |---------+------------------------------------------------------------|
-|         | <c>                                                        |
 | byte    | Synonym for uint8                                          |
 | int     | The int32 or int64 range depending on the implementation   |
 | int8    | [-128, 127]                                                |
