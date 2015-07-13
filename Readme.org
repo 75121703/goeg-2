@@ -5,7 +5,7 @@
 #+LANGUAGE: en
 
 #+OPTIONS: H:4 num:3 toc:2
-#+STARTUP: indent showall
+#+STARTUP: indent showall align
 
 * Packages
 - fmt           :: Provides functions for formatting text and for reading formatted text.
@@ -38,10 +38,38 @@ chan      else         goto    package    switch
 const     fallthrough  if      range      type
 continue  for          import  return     var
 
+** Go's Predefined Identifiers
+append      copy     int8   nil      true
+bool        delete   int16  panic    uint
+byte        error    int32  print    uint8
+cap         false    int64  println  uint16
+close       float32  ioat   real     uint32
+complex     float64  len    recover  uint64
+complex64   imag     make   rune     uintptr
+complex128  int      new    string   _
+
 * ch01 - An Overview in Five Examples
 Five explained examples.
 
 * ch02 - Booleans and Numbers
+** Go's Integer Types and Ranges
+| Types   | Range                                                      |
+|---------+------------------------------------------------------------|
+|         | <c>                                                        |
+| byte    | Synonym for uint8                                          |
+| int     | The int32 or int64 range depending on the implementation   |
+| int8    | [-128, 127]                                                |
+| int16   | [−32 768, 32 767]                                          |
+| int32   | [−2 147 483 648, 2 147 483 647]                            |
+| int64   | [−9 223 372 036 854 775 808, 9 223 372 036 854 775 807]    |
+| rune    | Synonym for int32                                          |
+| uint    | The uint32 or uint64 range depending on the implementation |
+| uint8   | [0, 255]                                                   |
+| uint16  | [0, 65 535]                                                |
+| uint32  | [0, 4 294 967 295]                                         |
+| uint64  | [0, 18 446 744 073 709 551 615]                            |
+| uintptr | An unsigned integer capable of storing a pointer value     |
+
 
 * ch03 - Strings
 
