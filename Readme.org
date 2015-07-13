@@ -1,0 +1,22 @@
+Programming in Go Book. Creating Applications for the 21st Century.
+Reading:
+
+* Packages
+- fmt           :: Provides functions for formatting text and for reading formatted text.
+- log           :: Provides logging functions.
+- os            :: Provides platform-independent operating-system variables and functions including the
+                   os.Args variable of type []string (slice of strings) that holds the command-line arguments.
+- strings       :: Provides functions for manipulating strings.
+- path/filepath :: Provides functions for manipulating filenames and paths that work across platforms.
+
+
+* Introduction
+* ch01 - An Overview in Five Examples
+* ch02 - Booleans and Numbers
+* ch03 - Strings
+* ch04 - Collection Types
+* ch05 - Procedural Programming
+* ch06 - Object-Oriented Programming
+* ch07 - Concurrent Programming
+* ch08 - File Handling
+* ch09 - Packages
