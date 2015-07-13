@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"strings"
 
-	"books/programming-in-go/ch01/stacker/stack"
+	"github.com/jvillasante/goeg/ch01/stacker/stack"
 )
 
 func main() {

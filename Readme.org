@@ -1,5 +1,11 @@
-Programming in Go Book. Creating Applications for the 21st Century.
-Reading:
+#+TITLE: Go Notes
+#+AUTHOR: Julio C. Villasante
+#+EMAIL: jvillasantegomez@gmail.com
+#+DATE: 2015
+#+LANGUAGE: en
+
+#+OPTIONS: H:4 num:3 toc:2
+#+STARTUP: indent showall
 
 * Packages
 - fmt           :: Provides functions for formatting text and for reading formatted text.
@@ -8,15 +14,55 @@ Reading:
                    os.Args variable of type []string (slice of strings) that holds the command-line arguments.
 - strings       :: Provides functions for manipulating strings.
 - path/filepath :: Provides functions for manipulating filenames and paths that work across platforms.
+- bufio         :: Provides functions for buffered I/O, including ones for reading and writing strings from
+                   and to UTF-8 encoded text files.
+- io            :: Provides low-level I/O functions - and the io.Reader and io.Writer interfaces.
+- io/ioutil     :: Provides high-level file handling functions.
+- regexp        :: Provides powerful regular expression support.
+- math          :: Provides mathematical functions for operating on floating-point numbers.
+- runtime       :: Provides functions that access the program's runtime properties, such as which platform
+                   the program is running on.
 
 
 * Introduction
+
 * ch01 - An Overview in Five Examples
+
 * ch02 - Booleans and Numbers
+
 * ch03 - Strings
+
 * ch04 - Collection Types
+
 * ch05 - Procedural Programming
+
 * ch06 - Object-Oriented Programming
+An interface data field is in effect a *pointer to an item* - of any kind - that satisfies the interface,
+i.e., that has the methods the interface specifies.
+
 * ch07 - Concurrent Programming
+The go way to do concurrency is to *communicate* data, not to share data. This makes it much easier to
+write concurrent programs than using the traditional threads and locks approach, since with no shared
+data we can't get race conditions (such as deadlocks), and we don't have to remember to lock or unlock
+since there is no shared data to protect.
+
+A go statement is given a function call, which is executed in a separate asynchronous goroutine.
+
+Channels are modeled on Unix pipes and provide two-way (or at our option, one-way) communication of data items.
+Channels behave like FIFO (first in, first out) queues, hence they preserve the order of the items that are sent
+into them. Items cannot be dropped from a channel, but we are free to ignore any or all of the items we receive.
+If a channel's buffer is filled it blocks until at least one item is received from it. This means that any number
+of items can pass through a channel, providing the items are retrieved to make room for subsequent items. A channel
+with a buffer size of 0 can only send an item if the other end is waiting for an item. (It is also possible to get
+the effect of nonblocking channels using Go's *select* statement). Normally channels are created to provide
+communication between goroutines. Channel sends and receives don't need locks, and the channel blocking behaviour
+can be used to achieve synchronization.
+
+When the <- communication operator is used as a binary operator its left-hand operand must be a channel and its
+right-hand operand must be a value to send to the channel of the type the channel was declared with. When the <-
+communication operator is used as a unary operator with just a right-hand operand (which must be a channel), it
+acts as a receiver, blocking until it has a value to return.
+
 * ch08 - File Handling
+
 * ch09 - Packages
