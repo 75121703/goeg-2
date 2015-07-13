@@ -25,8 +25,14 @@
 
 
 * Introduction
+Go is quite C-like in spirit, being a small and efficient language with convenient low-level facilities such
+as pointers. Yet Go also offers many features associated with high - or very high - level languages, such as
+Unicode strings, powerful builtin data structures, duck typing, garbage collection, and high-level concurrency
+support that uses communication rather than shared data and locks. Go also has a large and wide-ranging
+standard library.
 
 * ch01 - An Overview in Five Examples
+Five explained examples.
 
 * ch02 - Booleans and Numbers
 
@@ -66,3 +72,9 @@ acts as a receiver, blocking until it has a value to return.
 * ch08 - File Handling
 
 * ch09 - Packages
+
+* Appendix A. Epilogue
+
+* Appendix B. The Dangers of Software Patents
+
+* Appendix C. Selected Bibliography
