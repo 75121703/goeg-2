@@ -31,6 +31,13 @@ Unicode strings, powerful builtin data structures, duck typing, garbage collecti
 support that uses communication rather than shared data and locks. Go also has a large and wide-ranging
 standard library.
 
+** Go's Keywords
+break     default      func    interface  select
+case      defer        go      map        struct
+chan      else         goto    package    switch
+const     fallthrough  if      range      type
+continue  for          import  return     var
+
 * ch01 - An Overview in Five Examples
 Five explained examples.
 
