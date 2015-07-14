@@ -62,33 +62,154 @@ work intuitively. In view of this we must be very careful when comparing floatin
 or inequality using == and !=.
 
 ** Go's Integer Types and Ranges
-| Type    | Range                                                      |
+|    Type | Range                                                      |
 |---------+------------------------------------------------------------|
-| byte    | Synonym for uint8                                          |
-| int     | The int32 or int64 range depending on the implementation   |
-| int8    | [-128, 127]                                                |
-| int16   | [−32 768, 32 767]                                          |
-| int32   | [−2 147 483 648, 2 147 483 647]                            |
-| int64   | [−9 223 372 036 854 775 808, 9 223 372 036 854 775 807]    |
-| rune    | Synonym for int32                                          |
-| uint    | The uint32 or uint64 range depending on the implementation |
-| uint8   | [0, 255]                                                   |
-| uint16  | [0, 65 535]                                                |
-| uint32  | [0, 4 294 967 295]                                         |
-| uint64  | [0, 18 446 744 073 709 551 615]                            |
+|     <r> |                                                            |
+|    byte | Synonym for uint8                                          |
+|     int | The int32 or int64 range depending on the implementation   |
+|    int8 | [-128, 127]                                                |
+|   int16 | [−32 768, 32 767]                                          |
+|   int32 | [−2 147 483 648, 2 147 483 647]                            |
+|   int64 | [−9 223 372 036 854 775 808, 9 223 372 036 854 775 807]    |
+|    rune | Synonym for int32                                          |
+|    uint | The uint32 or uint64 range depending on the implementation |
+|   uint8 | [0, 255]                                                   |
+|  uint16 | [0, 65 535]                                                |
+|  uint32 | [0, 4 294 967 295]                                         |
+|  uint64 | [0, 18 446 744 073 709 551 615]                            |
 | uintptr | An unsigned integer capable of storing a pointer value     |
 
 ** Go's Floating-Point Types
-| Type       | Range                                                           |
+|       Type | Range                                                           |
 |------------+-----------------------------------------------------------------|
-| float32    | ±3.402 823 466 385 288 598 117 041 834 845 169 254 40 × 10^38   |
+|        <r> |                                                                 |
+|    float32 | ±3.402 823 466 385 288 598 117 041 834 845 169 254 40 × 10^38   |
 |            | The mantissa is reliably accurate to about 7 decimal places.    |
-| float64    | ±1.797 693 134 862 315 708 145 274 237 317 043 567 981 × 10^308 |
+|    float64 | ±1.797 693 134 862 315 708 145 274 237 317 043 567 981 × 10^308 |
 |            | The mantissa is reliably accurate to about 15 decimal places.   |
-| complex64  | The real and imaginary parts are both of type float32           |
+|  complex64 | The real and imaginary parts are both of type float32           |
 | complex128 | The real and imaginary parts are both of type float64           |
 
 * ch03 - Strings
+A Go string is an immutable sequence of arbitrary bytes. In most cases a string's bytes represent Unicode text
+using the UTF-8 encoding.
+
+In Go, characters are represented in two different (easy-to-interchange) ways. A single character can be represented
+by a single rune (or int32). Go strings represent sequences of zero or more characters - whithin a string each
+character is represented by one or more UTF-8 encoded bytes.
+
+Go's for...range loop over a string decodes UTF-8 bytes into Unicode code points (runes) as it iterates, so we
+don't have to concern ourselves with the underlying representation.
+
+** String Operations
+All uses of the [] slice operator are fine for strings containing only 7-bit ASCII characters; but care is
+needed for strings containing non-ASCII characters. Strings can be compared using the standard comparison
+operators: <, <=, ==, !=, >=, >
+
+|          Syntax | Description/result                                                                       |
+|-----------------+------------------------------------------------------------------------------------------|
+|             <r> |                                                                                          |
+|          s += t | Appends string t to the end of string s.                                                 |
+|           s + t | The concatenation of strings s and t                                                     |
+|            s[n] | The raw byte at index position n (of type uint8) in s                                    |
+|          s[n:m] | A string taken from s from index positions n to m - 1                                    |
+|           s[n:] | A string taken from s from index positions n to len(s) - 1                               |
+|           s[:m] | A string taken from s from index position 0 to m - 1                                     |
+|          len(s) | The number of bytes in string s                                                          |
+|  len([]rune(s)) | The number of characters in string s - use the faster utf8.RuneCountInString() instead   |
+|       []rune(s) | Converts string s into a slice of Unicode code points. [O(n) time]                       |
+|   string(chars) | Converts a []rune or []int32 into a string; assumes that the runes or int32s are Unicode |
+|                 | code points. [O(n) time]                                                                 |
+|       []byte(s) | Converts string s into a slice of raw bytes without copying; there's no guarantee that   |
+|                 | the bytes are valid UTF-8. [O(1) time]                                                   |
+|   string(bytes) | Converts a []byte or []uint8 into a string without copying; there's no guarantee that    |
+|                 | the bytes are valid UTF-8. [O(1) time]                                                   |
+|       string(i) | Converts i of any integer type into a string; assumes that i is a Unicode code point;    |
+|                 | e.g., if i is 65, it returns "A"                                                         |
+| strconv.Itoa(i) | The string representation of i of type int and an error; e.g., if i is 65, it returns    |
+|                 | ("65", nil)                                                                              |
+|   fmt.Sprint(x) | The string representation of x of any type; e.g., if x is an integer of value 65, it     |
+|                 | returns "65"                                                                             |
+
+** The Fmt Package's Print Functions
+|                       Syntax | Description/result                                                                 |
+|------------------------------+------------------------------------------------------------------------------------|
+|                          <r> |                                                                                    |
+|  fmt.Errorf(format, args...) | Returns an error value containing a string created with the format string and      |
+|                              | the args.                                                                          |
+|  fmt.Fprint(writer, args...) | Writes the args to the writer each using format %v and space-separating            |
+|                              | nonstrings; returns the number of bytes written, and an error or nil.              |
+|          fmt.Fprintf(writer, | Writes the args to the writer using the format string; returns the number of       |
+|             format, args...) | bytes written, and an error or nil.                                                |
+|         fmt.Fprintln(writer, | Writes the args to the writer each using format %v, space-separated and ending     |
+|                     args...) | with a newline; returns the number of bytes written, and an error or nil.          |
+|           fmt.Print(args...) | Writes the args to os.Stdout each using format %v and space-separating nonstrings; |
+|                              | returns the number of bytes written, and an error or nil.                          |
+|  fmt.Printf(format, args...) | Writes the args to os.Stdout using the format string; returns the number of bytes  |
+|                              | written, and an error or nil.                                                      |
+|         fmt.Println(args...) | Writes the args to os.Stdout each using format %v, space-separated and ending with |
+|                              | a newline; returns the number of bytes written, and an error or nil.               |
+|          fmt.Sprint(args...) | Returns a string of the args, each formatted using format %v and space-separating  |
+|                              | nonstrings.                                                                        |
+| fmt.Sprintf(format, args...) | Returns a string of the args formatted using the format string.                    |
+|        fmt.Sprintln(args...) | Returns a string of the args, each formatted using format %v, space-separated      |
+|                              | and ending with a newline.                                                         |
+
+** The Fmt Package's Verbs
+|  Verb | Description/result                                                                                |
+|-------+---------------------------------------------------------------------------------------------------|
+|   <r> |                                                                                                   |
+|    %% | A literal % character.                                                                            |
+|    %b | An integer value as a binary (base 2) number, or (advanced) a floating-point number in scientific |
+|       | notation with a power of 2 exponent.                                                              |
+|    %c | An integer code point value as a Unicode character.                                               |
+|    %d | An integer value as a decimal (base 10) number.                                                   |
+|    %e | A floating-point or complex value in scientific notation with e.                                  |
+|    %E | A floating-point or complex value in scientific notation with E.                                  |
+|    %f | A floating-point or complex value in standard notation.                                           |
+|    %g | A floating-point or complex value using %e or %f, whichever produces the most compact output.     |
+|    %G | A floating-point or complex value using %E or %f, whichever produces the most compact output.     |
+|    %o | An integer value as an octal (base 8) number.                                                     |
+|    %p | A value's address as a hexadecimal (base 16) number with a prefix of 0x and using lowercase for   |
+|       | the digits a-f (for debugging).                                                                   |
+|    %q | The string of []byte as a double-quoted string, or the integer as a single-quoted string, using   |
+|       | Go syntax and using escapes where necessary.                                                      |
+|    %s | The string or []byte as raw UTF-8 bytes; this will produce correct Unicode output for a text file |
+|       | or on a UTF-8-savvy console.                                                                      |
+|    %t | A bool value as true or false.                                                                    |
+|    %T | A value's type using Go syntax.                                                                   |
+|    %U | An integer code point value using Unicode notation defaulting to four digits.                     |
+|    %v | A build-in or custom type's value using a default format, or a custom value using its type's      |
+|       | String() method if it exists.                                                                     |
+|    %x | An integer value as a hexadecimal (base 16) number or a string or []byte value as hexadecimal     |
+|       | digits (two per byte), using lowercase for the digits a-f.                                        |
+|    %X | An integer value as a hexadecimal (base 16) number or a string or []byte value as hexadecimal     |
+|       | digits (two per byte), using uppercase for the digits A-F.                                        |
+| space | Makes the verb output "-" before negative numbers and a space before positive numbers or to put   |
+|       | spaces between the bytes printed when using %x or %X verbs.                                       |
+|     # | Makes the verb use an "alternative" output format:                                                |
+|       | %#o  outputs octal with a leading 0                                                               |
+|       | %#p  outputs a pointer without the leading 0x                                                     |
+|       | %#q  outputs a string or []byte as a raw string (using backticks) if possible - otherwise outputs |
+|       | a double-quoted string                                                                            |
+|       | %#v  outputs a value as itself using Go syntax                                                    |
+|       | %#x  outputs hexadecimal with a leading 0x                                                        |
+|       | %#X  outputs hexadecimal with a leading 0X                                                        |
+|     + | Makes the verb output + or - for numbers, ASCII characters (with others escaped) for strings, and |
+|       | field names for structs.                                                                          |
+|     - | Makes the verb left-justify the value (the default is to right-justify).                          |
+|     0 | Makes the verb pad with leading 0s instead of spaces.                                             |
+|   n.m | For strings n specifies the minimum field width, and will result in space padding if the string   |
+|     n | has too few characters, and .m specifies the maximum number of the string's characters to use     |
+|    .m | (going from left to right), and will result in the string being truncated if it is too long.      |
+|       | Either or both m and n can be replaced with * in which case their values are taken from the       |
+|       | arguments.                                                                                        |
+|       | Either n or .m may be omitted.                                                                   |
+
+
+
+
+
 
 * ch04 - Collection Types
 
