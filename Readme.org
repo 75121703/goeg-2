@@ -3,7 +3,6 @@
 #+EMAIL: jvillasantegomez@gmail.com
 #+DATE: 2015
 #+LANGUAGE: en
-
 #+OPTIONS: H:4 num:3 toc:2
 #+STARTUP: indent showall align
 
@@ -52,8 +51,18 @@ complex128  int      new    string   _
 Five explained examples.
 
 * ch02 - Booleans and Numbers
+It is always safe to convert an integer of a smaller type to one of a larger type (e.g., from an int16 to
+an int32); but downsizing an integer that is too big for the target type or converting a negative integer to
+an unsigned integer will silently result in a truncated or otherwise unexpected value. In such cases it is best
+to use a custom downsizing function.
+
+All the comparison operations can be used with floating-point numbers. Unfortunately, due to the fact that
+floating-point numbers are held as approximations, comparing them for equality or inequality does not always
+work intuitively. In view of this we must be very careful when comparing floating-point numbers for equality
+or inequality using == and !=.
+
 ** Go's Integer Types and Ranges
-| Types   | Range                                                      |
+| Type    | Range                                                      |
 |---------+------------------------------------------------------------|
 | byte    | Synonym for uint8                                          |
 | int     | The int32 or int64 range depending on the implementation   |
@@ -69,6 +78,15 @@ Five explained examples.
 | uint64  | [0, 18 446 744 073 709 551 615]                            |
 | uintptr | An unsigned integer capable of storing a pointer value     |
 
+** Go's Floating-Point Types
+| Type       | Range                                                           |
+|------------+-----------------------------------------------------------------|
+| float32    | ±3.402 823 466 385 288 598 117 041 834 845 169 254 40 × 10^38   |
+|            | The mantissa is reliably accurate to about 7 decimal places.    |
+| float64    | ±1.797 693 134 862 315 708 145 274 237 317 043 567 981 × 10^308 |
+|            | The mantissa is reliably accurate to about 15 decimal places.   |
+| complex64  | The real and imaginary parts are both of type float32           |
+| complex128 | The real and imaginary parts are both of type float64           |
 
 * ch03 - Strings
 
