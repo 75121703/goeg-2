@@ -8,16 +8,21 @@
 
 * Packages
 - fmt           :: Provides functions for formatting text and for reading formatted text.
+- strings       :: Provides functions for manipulating strings.
+- strconv       :: Provides many functions for converting strings into other types and other types into strings.
+- unicode       :: Provides functions for querying Unicode code points to determine if they meet certain criteria
+                   - for example, whether the character they represent is a digit or a lowercase letter.
+- unicode/utf8  :: Provides several useful function for querying and manipulating strings and []bytes which hold
+                   UTF-8 bytes.
+- regexp        :: Provides powerful regular expression support.
 - log           :: Provides logging functions.
 - os            :: Provides platform-independent operating-system variables and functions including the
                    os.Args variable of type []string (slice of strings) that holds the command-line arguments.
-- strings       :: Provides functions for manipulating strings.
 - path/filepath :: Provides functions for manipulating filenames and paths that work across platforms.
 - bufio         :: Provides functions for buffered I/O, including ones for reading and writing strings from
                    and to UTF-8 encoded text files.
 - io            :: Provides low-level I/O functions - and the io.Reader and io.Writer interfaces.
 - io/ioutil     :: Provides high-level file handling functions.
-- regexp        :: Provides powerful regular expression support.
 - math          :: Provides mathematical functions for operating on floating-point numbers.
 - runtime       :: Provides functions that access the program's runtime properties, such as which platform
                    the program is running on.
@@ -204,12 +209,7 @@ operators: <, <=, ==, !=, >=, >
 |    .m | (going from left to right), and will result in the string being truncated if it is too long.      |
 |       | Either or both m and n can be replaced with * in which case their values are taken from the       |
 |       | arguments.                                                                                        |
-|       | Either n or .m may be omitted.                                                                   |
-
-
-
-
-
+|       | Either n or .m may be omitted.                                                                    |
 
 * ch04 - Collection Types
 
