@@ -28,12 +28,15 @@
                    the program is running on.
 
 
-* Introduction
+* Misc
 Go is quite C-like in spirit, being a small and efficient language with convenient low-level facilities such
 as pointers. Yet Go also offers many features associated with high - or very high - level languages, such as
 Unicode strings, powerful builtin data structures, duck typing, garbage collection, and high-level concurrency
 support that uses communication rather than shared data and locks. Go also has a large and wide-ranging
 standard library.
+
+In general, Go variables hold values. The exceptions are variables that refer to *channels*, *functions*, *methods*,
+*maps*, and *slices* - these hold references - and variables that hold pointers.
 
 ** Go's Keywords
 break     default      func    interface  select
@@ -212,12 +215,33 @@ operators: <, <=, ==, !=, >=, >
 |       | Either n or .m may be omitted.                                                                    |
 
 * ch04 - Collection Types
+** Arrays
+A Go array is a fixed-length sequence of items of the same type. Arrays are passed by value.
+
+[length]Type
+[N]Type{value1, value2, ..., valueN}
+[...]Type{value1, value2, ..., valueN}
+
+** Slices
+A Go slice is a variable-length fixed-capacity sequence of items of the same type. A slice's capacity is the
+length of its hidden array, and its length is any amount up to its capacity.
+
+make([]Type, length, capacity)
+make([]Type, length)
+[]Type{}
+[]Type{value1, value2, ..., valueN}
+
+** Maps
+A Go map is an unordered collection of key-value pairs whose capacity is limited only by machine memory.
+
+make(map[KeyType]ValueType, initialCapacity)
+make(map[KeyType]ValueType)
+map[KeyType]ValueType{}
+map[KeyType]ValueType{key1: value1, key2: value2, ..., keyN: valueN}
 
 * ch05 - Procedural Programming
 
 * ch06 - Object-Oriented Programming
-An interface data field is in effect a *pointer to an item* - of any kind - that satisfies the interface,
-i.e., that has the methods the interface specifies.
 
 * ch07 - Concurrent Programming
 The go way to do concurrency is to *communicate* data, not to share data. This makes it much easier to

@@ -6,6 +6,7 @@ project=github.com/jvillasante/goeg
 echo Installing Packages...
 go install $project/lib/numbers
 go install $project/lib/stringutils
+go install $project/lib/slices
 echo Done.
 
 echo Building Programs...
@@ -31,4 +32,9 @@ go build -o $root/bin/stringexamples $project/ch03/stringexamples
 go build -o $root/bin/m3u2pls        $project/ch03/m3u2pls
 go build -o $root/bin/playlist       $project/ch03.exercises/playlist
 go build -o $root/bin/soundex        $project/ch03.exercises/soundex
+
+# Chapter04
+go build -o $root/bin/guess_separator $project/ch04/guess_separator
+go build -o $root/bin/wordfrequency   $project/ch04/wordfrequency
+go build -o $root/bin/ch04_ans        $project/ch04.exercises/answers
 echo Done.
