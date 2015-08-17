@@ -38,6 +38,13 @@ standard library.
 In general, Go variables hold values. The exceptions are variables that refer to *channels*, *functions*, *methods*,
 *maps*, and *slices* - these hold references - and variables that hold pointers.
 
+A type's method set is the set of all the methods that can be called on a value of the type - this set is empty
+for types that have no methods. The Go interface{} type is used to represent the empty interface, that is, a value
+of a type whose method set includes the empty set. Since every type has a method set that includes the empty set
+(no matter how many methods it has), an interface{} can be used to represent a value of any Go type. Furthermore,
+we can convert an interface{} to a value of the actual type it holds using a type switch, or a type assertion, or
+by doing introspection with Go's reflect package.
+
 ** Go's Keywords
 break     default      func    interface  select
 case      defer        go      map        struct
@@ -240,6 +247,62 @@ map[KeyType]ValueType{}
 map[KeyType]ValueType{key1: value1, key2: value2, ..., keyN: valueN}
 
 * ch05 - Procedural Programming
+The short variable declaration operator (:=) is used to both declare a new variable and assign to it in a single
+statement. Multiple comma-separated variables can be used in much the same way as when using the = operator,
+except that at least one non-blank variable must be new. If there is a variable that already exists it will be
+assigned to without creating a new variable — unless the := is at the start of a new scope such as in an if or
+for statement’s initializing statement.
+
+** Type Conversions
+resultOfType := Type(expression)
+
+** Type Assertions
+resultOfType, boolean := expression.(Type) // Checked
+resultOfType := expression.(Type)          // Unchecked; panic() on failure
+
+** Type Switch
+switch x.(type) ...
+
+** For Statements
+for { // Infinite loop
+  block
+}
+
+for booleanExpression { // While loop
+  block
+}
+
+for optionalPreStatement; booleanExpression; optionalPostStatement {
+  block
+}
+
+for index, char := range aString { // String per character iteration
+  block
+}
+
+for index := range aString { // String per character iteration
+  block // char, size := utf8.DecodeRuneInString(aString[index:])
+}
+
+for index, item := range anArrayOrSlice { // Array or slice iteration
+  block
+}
+
+for index := range anArrayOrSlice { // Array or slice iteration
+  block // item := anArrayOrSlice[index]
+}
+
+for key, value := range aMap { // Map iteration
+  block
+}
+
+for key := range aMap { // Map iteration
+  block // value := aMap[key]
+}
+
+for item := range aChannel { // Channel iteration
+  block
+}
 
 * ch06 - Object-Oriented Programming
 
@@ -249,22 +312,42 @@ write concurrent programs than using the traditional threads and locks approach,
 data we can't get race conditions (such as deadlocks), and we don't have to remember to lock or unlock
 since there is no shared data to protect.
 
-A go statement is given a function call, which is executed in a separate asynchronous goroutine.
+A goroutine is a function or method invocation that executes independently and concurrently in relation to any
+other goroutines in a program. Every Go program has at least one goroutine, the main goroutine in which the main
+package's main() function executes. Goroutines are rather like lightweight threads or coroutines, in that they can
+be created in large numbers (whereas even small numbers of threads can consume a huge amount of machine resources).
+Goroutines all share the same address space, and Go provides locking primitives to allow data to be safely shared
+across goroutines. However, the recommended approach to concurrent Go programming is to communicate data, rather
+than to share it.
 
-Channels are modeled on Unix pipes and provide two-way (or at our option, one-way) communication of data items.
-Channels behave like FIFO (first in, first out) queues, hence they preserve the order of the items that are sent
-into them. Items cannot be dropped from a channel, but we are free to ignore any or all of the items we receive.
-If a channel's buffer is filled it blocks until at least one item is received from it. This means that any number
-of items can pass through a channel, providing the items are retrieved to make room for subsequent items. A channel
-with a buffer size of 0 can only send an item if the other end is waiting for an item. (It is also possible to get
-the effect of nonblocking channels using Go's *select* statement). Normally channels are created to provide
-communication between goroutines. Channel sends and receives don't need locks, and the channel blocking behaviour
-can be used to achieve synchronization.
+A Go channel is a bidirectional or unidirectional communication pipe that can be used to communicate (i.e., send
+and receive) data between two or more goroutines. Channels are modeled on Unix pipes and provide two-way (or at
+our option, one-way) communication of data items. Channels behave like FIFO (first in, first out) queues, hence
+they preserve the order of the items that are sent into them. Items cannot be dropped from a channel, but we are
+free to ignore any or all of the items we receive. If a channel's buffer is filled it blocks until at least one
+item is received from it. This means that any number of items can pass through a channel, providing the items are
+retrieved to make room for subsequent items. A channel with a buffer size of 0 can only send an item if the other
+end is waiting for an item. (It is also possible to get the effect of nonblocking channels using Go's *select*
+statement). Normally channels are created to provide communication between goroutines. Channel sends and receives
+don't need locks, and the channel blocking behaviour can be used to achieve synchronization.
 
 When the <- communication operator is used as a binary operator its left-hand operand must be a channel and its
 right-hand operand must be a value to send to the channel of the type the channel was declared with. When the <-
 communication operator is used as a unary operator with just a right-hand operand (which must be a channel), it
 acts as a receiver, blocking until it has a value to return.
+
+** Goroutines
+go function(arguments)
+go func(parameters) { block }(arguments)
+
+** Channels
+make(chan Type)           // Make non-buffered (synchronous) channel
+make(chan Type, capacity) // Make buffered (asynchronous) channel
+
+channel <- value   // Blocking send
+<-channel          // Receive and discard
+x := <-channel     // Receive and store
+x, ok := <-channel // As above & check for channel closed & empty
 
 * ch08 - File Handling
 

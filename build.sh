@@ -37,4 +37,15 @@ go build -o $root/bin/soundex        $project/ch03.exercises/soundex
 go build -o $root/bin/guess_separator $project/ch04/guess_separator
 go build -o $root/bin/wordfrequency   $project/ch04/wordfrequency
 go build -o $root/bin/ch04_ans        $project/ch04.exercises/answers
+
+# Chapter05
+go build -o $root/bin/counter               $project/ch05/counter
+go build -o $root/bin/palindrome            $project/ch05/palindrome
+go build -o $root/bin/generics              $project/ch05/generics
+go build -o $root/bin/memoization           $project/ch05/memoization
+go build -o $root/bin/indent_sort           $project/ch05/indent_sort
+go build -o $root/bin/archive_file_list     $project/ch05/archive_file_list
+go build -o $root/bin/archive_file_list_ans $project/ch05.exercises/archive_file_list_ans
+go build -o $root/bin/palindrome_ans        $project/ch05.exercises/palindrome_ans
+go build -o $root/bin/common_prefix         $project/ch05.exercises/common_prefix
 echo Done.
